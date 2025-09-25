@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Aapka code yahan aayega, agar koi custom settings hain
-  // Jaise: compiler: { styledComponents: true }
+  // Force Next.js to use SWC for minification (WebAssembly version)
+  swcMinify: true,
+  
+  // Compiler configuration
+  compiler: {
+    // Enable SWC minification
+    minify: true,
+  },
   
   // Images ke liye agar aap Icons8 ya Flaticon se directly URLs use karte to:
   images: {
