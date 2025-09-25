@@ -1,0 +1,76 @@
+[
+    {
+        "version": "1.0.11",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Fixed the `Missing script: 'dev'` error by updating `package.json`.",
+            "Provided all project files content upon user request."
+        ]
+    },
+    {
+        "version": "1.0.10",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Resolved `ERESOLVE` dependency conflict issue by reinstalling `framer-motion` and `react-qr-reader` with `--legacy-peer-deps`."
+        ]
+    },
+    {
+        "version": "1.0.7",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Visuals & Vibe: Tailwind CSS configured for a stunning, deep dark theme.",
+            "Glass Blur/Fluent Design: Custom `glass-card` utility class added to `globals.css` for the desired effect.",
+            "Changelog data structure defined and final integration planned for a modal/dropdown display."
+        ]
+    },
+    {
+        "version": "1.0.6",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Modular Component `AddSecretForm.tsx` created for adding 2FA accounts.",
+            "Two input modes implemented: Manual Entry and QR Code Scanner.",
+            "Supabase insert logic implemented, ensuring the secret is **encrypted** before storage.",
+            "DashboardPage updated to fetch and display the list of secrets.",
+            "My PortFolio and Gravatar links added to the footer."
+        ]
+    },
+    {
+        "version": "1.0.5",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Encryption logic implemented using `crypto-js` (AES-256 standard).",
+            "TOTP Code Generation logic implemented using `otp-generator` in `TotpCodeDisplay.tsx`."
+        ]
+    },
+    {
+        "version": "1.0.4",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Supabase database table `authenticator_secrets` created with RLS enabled.",
+            "Initial **Dashboard Component** (`app/dashboard/page.tsx`) created with client-side private route logic."
+        ]
+    },
+    {
+        "version": "1.0.3",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Supabase client integration added (`lib/supabaseClient.ts`).",
+            "Basic authentication component created (`app/auth/page.tsx`)."
+        ]
+    },
+    {
+        "version": "1.0.0",
+        "date": "2025-09-24",
+        "author": "༯𝙎ค૯𝙀𝘿✘🫀",
+        "changes": [
+            "Project initiation and initial concept planning for 'TSun-Authenticator' WebApp."
+        ]
+    }
+]
