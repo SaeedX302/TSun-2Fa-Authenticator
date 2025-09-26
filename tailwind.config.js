@@ -13,6 +13,10 @@ module.exports = {
         // Custom deep dark scheme for a professional look
         'tsun-dark': '#0f172a', // Slate-900 se thora gehra
         'tsun-bg': '#070a13', // Ultra dark background
+        'primary': '#154D71',
+        'secondary': '#1C6EA4',
+        'accent': '#33A1E0',
+        'highlight': '#FFF9AF'
       },
       boxShadow: {
         '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',

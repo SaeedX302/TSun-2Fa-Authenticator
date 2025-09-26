@@ -205,7 +205,7 @@ export default function Dashboard() {
                             >
                                 <p className="text-gray-400 text-lg">
                                     {searchTerm
-                                        ? `No accounts found for "${searchTerm}".`
+                                        ? `No accounts found for \"${searchTerm}\".`
                                         : "You haven't added any accounts yet. Click the + button to get started!"}
                                 </p>
                             </motion.div>
@@ -247,7 +247,7 @@ export default function Dashboard() {
                             <p className="text-gray-400 mb-6">This action cannot be undone.</p>
                             <div className="flex justify-center space-x-4">
                                 <motion.button
-                                    onClick={handleDelete}
+                                    onClick={handleDelete} 
                                     whileHover={{ scale: 1.05 }}
                                     className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-semibold"
                                 >
