@@ -27,10 +27,23 @@ export function decryptConfig(encryptedData: string): AccountConfig {
     for (let i = 0; i < decoded.length; i++) {
         decrypted += String.fromCharCode(decoded.charCodeAt(i) ^ encryptionKey.charCodeAt(i % encryptionKey.length));
     }
+
+    const defaults = {
+        type: 'totp' as 'totp' | 'hotp',
+        algorithm: 'SHA1' as 'SHA1' | 'SHA256' | 'SHA512',
+        digits: 6 as 6 | 7 | 8,
+        period: 30 as 30 | 60,
+    };
+
     try {
-        return JSON.parse(decrypted);
+        const parsed = JSON.parse(decrypted);
+        if (typeof parsed === 'object' && parsed !== null && parsed.secret) {
+            return { ...defaults, ...parsed };
+        }
+        // For old string-only secrets that are valid JSON strings
+        return { ...defaults, secret: String(parsed) };
     } catch (e) {
-        // Fallback for old single-string secrets
-        return { secret: decrypted };
+        // Fallback for old single-string secrets that are not valid JSON
+        return { ...defaults, secret: decrypted };
     }
 }

@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "filesystem-mcp",
+      "args": [
+        "--root",
+        "/home/user/TSun-2Fa-Authenticator/"
+      ]
+    },
+    "google-search": {
+      "command": "websearch-mcp",
+      "args": [
+        "--api-key",
+        "AIzaSyDMj4ZD5ofbXHD9M7XJbZNkJucmm94GDq0",
+        "--cx",
+        "d7d8f372bd1184251"
+      ]
+    },
+    "websearch-mcp": {
+      "command": "",
+      "args": []
+    }
+  }
+}
