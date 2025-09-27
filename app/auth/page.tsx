@@ -37,7 +37,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-tsun-bg text-white p-4">
+    <div className="flex min-h-screen items-center justify-center bg-primary text-text-main p-4">
       <motion.div 
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -45,30 +45,28 @@ export default function AuthPage() {
         className="glass-card p-8 rounded-xl shadow-2xl w-full max-w-sm"
       >
         <div className="flex justify-center mb-6">
-             {/* Replace with your 3D icon */}
-             <Image src="/public/icons/lock-3d.png" alt="Lock Icon" width={60} height={60} className="w-16 h-16"/> 
+             <Image src="/icons/lock-3d.png" alt="Lock Icon" width={60} height={60} className="w-16 h-16"/> 
         </div>
-        <h2 className="text-3xl font-bold mb-6 text-center text-blue-400">TSun Authenticator</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-text-dark">TSun Authenticator</h2>
         
         <form onSubmit={handleAuth}>
-          {/* ... (Email and Password inputs, same as before) */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-sm font-medium mb-1 text-text-light">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded-lg bg-gray-800/70 border border-gray-700 focus:ring-2 focus:ring-blue-500 transition-all"
+              className="w-full p-3 rounded-lg bg-secondary/40 border border-accent/50 focus:ring-2 focus:ring-highlight transition-all text-text-main placeholder-text-light"
               required
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label className="block text-sm font-medium mb-1 text-text-light">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded-lg bg-gray-800/70 border border-gray-700 focus:ring-2 focus:ring-blue-500 transition-all"
+              className="w-full p-3 rounded-lg bg-secondary/40 border border-accent/50 focus:ring-2 focus:ring-highlight transition-all text-text-main placeholder-text-light"
               required
             />
           </div>
@@ -77,16 +75,16 @@ export default function AuthPage() {
             type="submit"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+            className="w-full py-3 rounded-lg bg-highlight text-white font-semibold hover:bg-accent transition-colors"
             disabled={loading}
           >
             {loading ? (isLogin ? 'Logging in...' : 'Signing up...') : (isLogin ? 'Login 🔑' : 'Sign Up ✨')}
           </motion.button>
         </form>
         
-        <p className="mt-6 text-center text-sm">
+        <p className="mt-6 text-center text-sm text-text-light">
           {isLogin ? 'New user?' : 'Already have an account?'}
-          <button onClick={() => setIsLogin(!isLogin)} className="text-blue-400 hover:underline ml-2 transition-colors">
+          <button onClick={() => setIsLogin(!isLogin)} className="text-highlight hover:underline ml-2 transition-colors font-semibold">
             {isLogin ? 'Sign up' : 'Login'}
           </button>
         </p>

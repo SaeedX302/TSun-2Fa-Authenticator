@@ -10,21 +10,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Custom deep dark scheme for a professional look
-        'tsun-dark': '#0f172a', // Slate-900 se thora gehra
-        'tsun-bg': '#070a13', // Ultra dark background
-        'primary': '#154D71',
-        'secondary': '#1C6EA4',
-        'accent': '#33A1E0',
-        'highlight': '#FFF9AF'
+        'primary': '#FFEDDB',
+        'secondary': '#EDCDBB',
+        'accent': '#E3B7A0',
+        'highlight': '#BF9270',
+        // Claymate Text Colors
+        'text-main': '#8D6E63', // A deep, earthy brown
+        'text-light': '#A1887F', // A softer, lighter brown
+        'text-dark': '#5D4037',   // A darker, more grounded brown
       },
       boxShadow: {
         '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
         'glass-inner': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.1)',
-      },
-      // Agar aapko fonts import karne hon
-      fontFamily: {
-        // sans: ['Inter', 'sans-serif'],
       },
       // Animation settings
       transitionTimingFunction: {
@@ -32,5 +29,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')],
 }

@@ -1,4 +1,4 @@
-// components/TOTPDisplay.tsx
+// components/TotpCodeDisplay.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react';
@@ -9,7 +9,7 @@ import { Copy, RefreshCcw, Trash2 } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 import { getServiceIcon } from '@/utils/iconMapping';
 
-interface TOTPDisplayProps {
+interface TotpCodeDisplayProps {
     id: string;
     serviceName: string;
     accountName: string;
@@ -17,7 +17,7 @@ interface TOTPDisplayProps {
     onDelete: (id: string) => void;
 }
 
-export default function TOTPDisplay({ id, serviceName, accountName, encryptedSecret, onDelete }: TOTPDisplayProps) {
+export default function TotpCodeDisplay({ id, serviceName, accountName, encryptedSecret, onDelete }: TotpCodeDisplayProps) {
     const [code, setCode] = useState('------');
     const [timeLeft, setTimeLeft] = useState(0);
     const [counter, setCounter] = useState(0);
