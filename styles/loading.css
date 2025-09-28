@@ -1,0 +1,102 @@
+/* styles/loading.css */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 1s ease-out;
+    z-index: 9999;
+}
+
+.loading-screen.fade-out {
+    opacity: 0;
+}
+
+.art-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.shape1 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 0s;
+}
+
+.shape2 {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 20%;
+    animation-delay: 0.5s;
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+}
+
+.shape3 {
+    width: 80px;
+    height: 80px;
+    top: 70%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    animation-delay: 1s;
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+}
+
+.background-movement {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 10%, transparent 40%),
+                radial-gradient(circle, rgba(255, 255, 255, 0.05) 10%, transparent 40%);
+    background-size: 100px 100px;
+    animation: move-background 20s linear infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes move-background {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(25px, 25px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .shape, .background-movement {
+        animation: none;
+    }
+}

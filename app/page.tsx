@@ -1,20 +1,36 @@
 // app/page.tsx
 'use client'
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import '../styles/loading.css';
 
 export default function HomePage() {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TSun-Authenticator ka landing page nahi hai, seedha login par bhej do!
-    router.replace('/auth');
-  }, [router]);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000); // Minimum loading time
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      router.replace('/auth');
+    }
+  }, [loading, router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-tsun-bg text-white">
-      <p className="text-xl font-medium">Redirecting to Login... 🚀</p>
+    <div className={`loading-screen ${!loading ? 'fade-out' : ''}`}>
+      <div className="art-container">
+        <div className="background-movement"></div>
+        <div className="shape shape1"></div>
+        <div className="shape shape2"></div>
+        <div className="shape shape3"></div>
+      </div>
     </div>
   );
 }

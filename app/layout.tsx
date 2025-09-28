@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "../styles/loading.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Favicon in Every Website use 3d Favicons */}
-        <link rel="icon" href="/favicon-3d.ico" sizes="any" /> 
+        <link rel="icon" href="/favicon-3d.ico" sizes="any" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>

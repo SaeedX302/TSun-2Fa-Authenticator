@@ -75,11 +75,25 @@ export default function DashboardPage() {
     await supabase.auth.signOut();
     // Redirect handled by auth listener
   }
+  
+  const deleteSecret = async (id: string) => {
+        const { error } = await supabase
+            .from('authenticator_secrets')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error deleting secret:', error);
+            alert('Failed to delete account. Please try again.');
+        } else {
+            fetchSecrets(); // Refresh the list
+        }
+    };
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-tsun-bg text-white">
-        <p className="text-2xl font-medium">Loading the Magic... 💫</p>
+        <p className="text-2xl font-medium">Initializing Secure Vault... 🛡️</p>
       </div>
     )
   }
@@ -94,6 +108,14 @@ export default function DashboardPage() {
         </h1>
         <div className="flex items-center space-x-4">
             <ChangelogModal currentVersion={CURRENT_VERSION} />
+            <motion.button 
+                onClick={() => router.push('/dashboard/backup')}
+                className="text-blue-400 hover:text-blue-500 transition px-4 py-2 border border-blue-400 rounded-full"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+            >
+                Backup & Restore
+            </motion.button>
             <motion.button 
                 onClick={handleLogout} 
                 className="text-red-400 hover:text-red-500 transition px-4 py-2 border border-red-400 rounded-full"
@@ -118,8 +140,11 @@ export default function DashboardPage() {
                     secrets.map((secret) => (
                         <TotpCodeDisplay 
                             key={secret.id}
+                            id={secret.id}
                             encryptedSecret={secret.encrypted_secret}
                             serviceName={secret.service_name}
+                            accountName={secret.account_name}
+                            deleteSecret={deleteSecret}
                         />
                     ))
                 ) : (

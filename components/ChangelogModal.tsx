@@ -34,7 +34,7 @@ const ChangelogModal: React.FC<ChangelogModalProps> = ({ currentVersion }) => {
         whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
       >
-        v{currentVersion} Changelog
+        App Updates
       </motion.button>
 
       <AnimatePresence>

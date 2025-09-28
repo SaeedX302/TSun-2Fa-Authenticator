@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { encryptConfig } from '@/lib/crypto';
 import { getServiceIcon, supportedServices } from '@/utils/iconMapping';
 import QrScanner from './QrScanner';
 import { Camera } from 'lucide-react';
@@ -18,8 +17,6 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
     const [secret, setSecret] = useState('');
     const [serviceName, setServiceName] = useState('');
     const [accountName, setAccountName] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [algorithm, setAlgorithm] = useState('SHA1');
     const [digits, setDigits] = useState('6');
     const [period, setPeriod] = useState('30');
@@ -64,14 +61,8 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
         setLoading(true);
         setError(null);
 
-        if (!secret || !serviceName || !accountName || !password || !confirmPassword) {
+        if (!secret || !serviceName || !accountName) {
             setError('Please fill out all fields.');
-            setLoading(false);
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            setError('Passwords do not match.');
             setLoading(false);
             return;
         }
@@ -93,8 +84,6 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
             type,
         };
 
-        const encryptedSecret = encryptConfig(secretConfig, password);
-
         const { data, error } = await supabase
             .from('authenticator_secrets')
             .insert([
@@ -102,7 +91,7 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                     user_id: user.id,
                     service_name: serviceName,
                     account_name: accountName,
-                    encrypted_secret: encryptedSecret,
+                    encrypted_secret: JSON.stringify(secretConfig),
                 },
             ])
             .select();
@@ -141,7 +130,7 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
 
             <div className="relative">
                 <div className="flex items-center space-x-2">
-                    <i className={`${getServiceIcon(serviceName)} text-xl text-text-light`}></i>
+                    {getServiceIcon(serviceName)}
                     <input
                         type="text"
                         value={serviceName}
@@ -159,8 +148,8 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                                 onClick={() => handleSuggestionClick(name)}
                                 className="flex items-center p-2 hover:bg-accent/50 cursor-pointer transition-colors"
                             >
-                                <i className={`${getServiceIcon(name)} mr-2 text-text-light`}></i>
-                                <span className="text-text-main">{name}</span>
+                                {getServiceIcon(name)}
+                                <span className="text-text-main ml-2">{name}</span>
                             </div>
                         ))}
                     </div>
@@ -180,22 +169,6 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                 value={secret}
                 onChange={(e) => setSecret(e.target.value)}
                 placeholder="2FA Secret Key"
-                className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
-                required
-            />
-             <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Encryption Password"
-                className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
-                required
-            />
-            <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm Encryption Password"
                 className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
                 required
             />
