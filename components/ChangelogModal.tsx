@@ -30,7 +30,7 @@ const ChangelogModal: React.FC<ChangelogModalProps> = ({ currentVersion }) => {
     <>
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="text-sm px-4 py-2 rounded-full bg-gradient-to-r from-accent to-highlight text-text-main hover:from-highlight hover:to-accent transition font-medium shadow-lg"
+        className="text-sm px-4 py-2 rounded-lg bg-accent border border-highlight/50 text-text-dark hover:bg-highlight hover:text-primary transition-colors font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-highlight focus:ring-opacity-50"
         whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -46,38 +46,37 @@ const ChangelogModal: React.FC<ChangelogModalProps> = ({ currentVersion }) => {
             onClick={handleClose} // Click anywhere to close
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
           >
-            <motion.div 
-              ref={modalRef} 
-              variants={cardVariants} 
+            <motion.div
+              ref={modalRef}
+              variants={cardVariants}
               onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
-              className="bg-secondary/95 border border-primary/30 p-6 rounded-2xl w-full max-w-md max-h-[70vh] flex flex-col shadow-2xl"
+              className="glass-card p-6 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl border-accent/20"
             >
-              <div className="flex justify-between items-center mb-4 border-b border-accent/20 pb-3">
-                <h3 className="text-xl font-bold text-text-main">Version History</h3>
+              <div className="flex justify-between items-center mb-4 border-b border-highlight/30 pb-3">
+                <h3 className="text-2xl font-bold text-text-dark">Version History</h3>
                 <motion.button onClick={handleClose} whileHover={{ scale: 1.1, rotate: 90 }} className="p-1 rounded-full hover:bg-red-500/20">
                   <X size={22} className="text-text-light" />
                 </motion.button>
               </div>
 
-              <div className="overflow-y-auto space-y-6 pr-3 flex-grow scrollbar-thin scrollbar-thumb-highlight scrollbar-track-secondary/50 scrollbar-thumb-rounded-full">
+              <div className="overflow-y-auto space-y-8 pr-3 flex-grow scrollbar-thin scrollbar-thumb-highlight scrollbar-track-secondary/50 scrollbar-thumb-rounded-full">
                 {displayedLogs.map((log, index) => (
                   <motion.div
                     key={log.version}
-                    className="relative pl-6 border-l-2 border-accent/30"
+                    className="relative pl-8 border-l-2 border-accent/50"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <div className="absolute -left-[9px] top-1.5 w-4 h-4 bg-highlight rounded-full border-4 border-secondary"></div>
+                    <div className="absolute -left-[10px] top-1 w-5 h-5 bg-highlight rounded-full border-4 border-primary"></div>
                     <div className="mb-2">
-                        <span className="text-lg font-bold text-text-main">Version {log.version}</span>
-                        <span className="text-xs text-text-light font-mono ml-2">{log.date}</span>
+                        <span className="text-xl font-bold text-text-dark">Version {log.version}</span>
+                        <span className="text-sm text-text-light font-mono ml-3">{log.date}</span>
                     </div>
-                    <ul className="mt-2 list-none space-y-1.5 text-text-light">
+                    <ul className="mt-3 list-disc list-inside space-y-2 text-text-main">
                       {log.changes.map((change, i) => (
-                        <li key={i} className="flex items-start text-sm">
-                          <span className="text-highlight mr-2.5 mt-1">&#9679;</span>
-                          <span>{change}</span>
+                        <li key={i} className="text-sm">
+                          {change}
                         </li>
                       ))}
                     </ul>

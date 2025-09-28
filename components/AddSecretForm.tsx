@@ -18,6 +18,8 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
     const [secret, setSecret] = useState('');
     const [serviceName, setServiceName] = useState('');
     const [accountName, setAccountName] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [algorithm, setAlgorithm] = useState('SHA1');
     const [digits, setDigits] = useState('6');
     const [period, setPeriod] = useState('30');
@@ -62,8 +64,14 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
         setLoading(true);
         setError(null);
 
-        if (!secret || !serviceName || !accountName) {
+        if (!secret || !serviceName || !accountName || !password || !confirmPassword) {
             setError('Please fill out all fields.');
+            setLoading(false);
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setError('Passwords do not match.');
             setLoading(false);
             return;
         }
@@ -85,7 +93,7 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
             type,
         };
 
-        const encryptedSecret = encryptConfig(secretConfig);
+        const encryptedSecret = encryptConfig(secretConfig, password);
 
         const { data, error } = await supabase
             .from('authenticator_secrets')
@@ -112,18 +120,18 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
     return (
         <motion.form
             onSubmit={handleSubmit}
-            className="flex flex-col p-6 rounded-xl bg-gray-800/50 backdrop-blur-lg shadow-2xl space-y-4 max-w-lg mx-auto"
+            className="glass-card flex flex-col p-6 rounded-xl shadow-2xl space-y-4 max-w-lg mx-auto"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
         >
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-center text-gray-200">Add New 2FA Account</h2>
+                <h2 className="text-2xl font-bold text-center text-text-dark">Add New 2FA Account</h2>
                 <motion.button
                     type="button"
                     onClick={() => setShowScanner(!showScanner)}
                     whileHover={{ scale: 1.1 }}
-                    className="p-2 rounded-full bg-blue-600 hover:bg-blue-700 transition"
+                    className="p-2 rounded-full bg-accent hover:bg-highlight transition"
                 >
                     <Camera size={20} />
                 </motion.button>
@@ -133,26 +141,26 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
 
             <div className="relative">
                 <div className="flex items-center space-x-2">
-                    <i className={`${getServiceIcon(serviceName)} text-xl text-gray-400`}></i>
+                    <i className={`${getServiceIcon(serviceName)} text-xl text-text-light`}></i>
                     <input
                         type="text"
                         value={serviceName}
                         onChange={handleServiceChange}
                         placeholder="Service Name (e.g., Google, GitHub)"
-                        className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 border-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                        className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
                         required
                     />
                 </div>
                 {suggestions.length > 0 && (
-                    <div className="absolute top-full left-0 w-full bg-gray-700 rounded-b-lg shadow-lg z-10 max-h-40 overflow-y-auto mt-1">
+                    <div className="absolute top-full left-0 w-full bg-secondary rounded-b-lg shadow-lg z-10 max-h-40 overflow-y-auto mt-1">
                         {suggestions.map((name, index) => (
                             <div
                                 key={index}
                                 onClick={() => handleSuggestionClick(name)}
-                                className="flex items-center p-2 hover:bg-gray-600 cursor-pointer transition-colors"
+                                className="flex items-center p-2 hover:bg-accent/50 cursor-pointer transition-colors"
                             >
-                                <i className={`${getServiceIcon(name)} mr-2 text-gray-400`}></i>
-                                <span className="text-gray-200">{name}</span>
+                                <i className={`${getServiceIcon(name)} mr-2 text-text-light`}></i>
+                                <span className="text-text-main">{name}</span>
                             </div>
                         ))}
                     </div>
@@ -164,7 +172,7 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                 value={accountName}
                 onChange={(e) => setAccountName(e.target.value)}
                 placeholder="Account Name (e.g., user@example.com)"
-                className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 border-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
                 required
             />
             <input
@@ -172,17 +180,33 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                 value={secret}
                 onChange={(e) => setSecret(e.target.value)}
                 placeholder="2FA Secret Key"
-                className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 border-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
+                required
+            />
+             <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Encryption Password"
+                className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
+                required
+            />
+            <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm Encryption Password"
+                className="w-full p-2 rounded-lg bg-secondary/50 text-text-main border-none focus:outline-none focus:ring-2 focus:ring-highlight transition"
                 required
             />
 
             <div className="flex space-x-4">
                 <div className="flex-1">
-                    <label className="text-sm text-gray-400 block mb-1">Algorithm</label>
+                    <label className="text-sm text-text-light block mb-1">Algorithm</label>
                     <select
                         value={algorithm}
                         onChange={(e) => setAlgorithm(e.target.value)}
-                        className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 rounded-lg bg-secondary/50 text-text-main focus:outline-none focus:ring-2 focus:ring-highlight"
                     >
                         <option value="SHA1">SHA1</option>
                         <option value="SHA256">SHA256</option>
@@ -190,11 +214,11 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                     </select>
                 </div>
                 <div className="flex-1">
-                    <label className="text-sm text-gray-400 block mb-1">Digits</label>
+                    <label className="text-sm text-text-light block mb-1">Digits</label>
                     <select
                         value={digits}
                         onChange={(e) => setDigits(e.target.value)}
-                        className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 rounded-lg bg-secondary/50 text-text-main focus:outline-none focus:ring-2 focus:ring-highlight"
                     >
                         <option value="6">6</option>
                         <option value="8">8</option>
@@ -204,22 +228,22 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
 
             <div className="flex space-x-4">
                 <div className="flex-1">
-                    <label className="text-sm text-gray-400 block mb-1">Period</label>
+                    <label className="text-sm text-text-light block mb-1">Period</label>
                     <select
                         value={period}
                         onChange={(e) => setPeriod(e.target.value)}
-                        className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 rounded-lg bg-secondary/50 text-text-main focus:outline-none focus:ring-2 focus:ring-highlight"
                     >
                         <option value="30">30s</option>
                         <option value="60">60s</option>
                     </select>
                 </div>
                 <div className="flex-1">
-                    <label className="text-sm text-gray-400 block mb-1">Type</label>
+                    <label className="text-sm text-text-light block mb-1">Type</label>
                     <select
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 rounded-lg bg-secondary/50 text-text-main focus:outline-none focus:ring-2 focus:ring-highlight"
                     >
                         <option value="totp">TOTP</option>
                         <option value="hotp">HOTP</option>
@@ -242,7 +266,7 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                 disabled={loading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className={`w-full p-3 rounded-lg font-bold transition ${loading ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'}`}
+                className={`w-full p-3 rounded-lg font-bold transition ${loading ? 'bg-gray-500' : 'bg-accent hover:bg-highlight'}`}
             >
                 {loading ? 'Adding...' : 'Add Account'}
             </motion.button>
