@@ -10,14 +10,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary': '#FFEDDB',
-        'secondary': '#EDCDBB',
-        'accent': '#E3B7A0',
-        'highlight': '#BF9270',
+        'primary': '#F2EBE3',
+        'secondary': '#D5C4B8',
+        'accent': '#A98B75',
+        'highlight': '#8C6D5B',
         // Claymate Text Colors
-        'text-main': '#8D6E63', // A deep, earthy brown
-        'text-light': '#A1887F', // A softer, lighter brown
-        'text-dark': '#5D4037',   // A darker, more grounded brown
+        'text-main': '#5C3D2E', // A dark, rich brown
+        'text-light': '#7B5E50', // A softer, mid-tone brown
+        'text-dark': '#402C20',   // A very dark, almost black-brown
       },
       boxShadow: {
         '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
