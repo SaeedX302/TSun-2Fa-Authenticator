@@ -218,7 +218,7 @@ export default function Dashboard() {
                                         serviceName={secret.service_name}
                                         accountName={secret.account_name}
                                         encryptedSecret={secret.encrypted_secret}
-                                        onDelete={handleDeleteClick}
+                                        deleteSecret={handleDeleteClick}
                                     />
                                 ))}
                             </div>

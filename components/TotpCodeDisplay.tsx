@@ -14,10 +14,10 @@ interface TotpCodeDisplayProps {
     serviceName: string;
     accountName: string;
     encryptedSecret: string;
-    onDelete: (id: string) => void;
+    deleteSecret: (id: string) => void;
 }
 
-export default function TotpCodeDisplay({ id, serviceName, accountName, encryptedSecret, onDelete }: TotpCodeDisplayProps) {
+export default function TotpCodeDisplay({ id, serviceName, accountName, encryptedSecret, deleteSecret }: TotpCodeDisplayProps) {
     const [code, setCode] = useState('------');
     const [timeLeft, setTimeLeft] = useState(0);
     const [counter, setCounter] = useState(0);
@@ -74,7 +74,7 @@ export default function TotpCodeDisplay({ id, serviceName, accountName, encrypte
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [encryptedSecret, code]);
+    }, [encryptedSecret]);
 
     const handleRefresh = async () => {
         const config = decryptConfig(encryptedSecret);
@@ -155,7 +155,7 @@ export default function TotpCodeDisplay({ id, serviceName, accountName, encrypte
                     <Copy size={16} />
                 </motion.button>
                 <motion.button
-                    onClick={() => onDelete(id)}
+                    onClick={() => deleteSecret(id)}
                     whileHover={{ scale: 1.1 }}
                     className="p-1 rounded-full bg-red-600 hover:bg-red-700 transition"
                 >

@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { encryptConfig } from '@/lib/crypto';
 import { getServiceIcon, supportedServices } from '@/utils/iconMapping';
+import QrScanner from './QrScanner';
+import { Camera } from 'lucide-react';
 
 interface AddSecretFormProps {
     onSecretAdded: () => void;
@@ -23,6 +25,7 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [showScanner, setShowScanner] = useState(false);
     const router = useRouter();
 
     const handleServiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +44,17 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
     const handleSuggestionClick = (name: string) => {
         setServiceName(name);
         setSuggestions([]);
+    };
+
+    const handleScanSuccess = (decoded: any) => {
+        setSecret(decoded.secret);
+        setServiceName(decoded.issuer || '');
+        setAccountName(decoded.account || '');
+        setAlgorithm(decoded.algorithm || 'SHA1');
+        setDigits(String(decoded.digits) || '6');
+        setPeriod(String(decoded.period) || '30');
+        setType(decoded.type || 'totp');
+        setShowScanner(false);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -103,7 +117,19 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
         >
-            <h2 className="text-2xl font-bold text-center text-gray-200">Add New 2FA Account</h2>
+            <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-center text-gray-200">Add New 2FA Account</h2>
+                <motion.button
+                    type="button"
+                    onClick={() => setShowScanner(!showScanner)}
+                    whileHover={{ scale: 1.1 }}
+                    className="p-2 rounded-full bg-blue-600 hover:bg-blue-700 transition"
+                >
+                    <Camera size={20} />
+                </motion.button>
+            </div>
+
+            {showScanner && <QrScanner onScanSuccess={handleScanSuccess} />}
 
             <div className="relative">
                 <div className="flex items-center space-x-2">
@@ -137,7 +163,7 @@ export default function AddSecretForm({ onSecretAdded }: AddSecretFormProps) {
                 type="text"
                 value={accountName}
                 onChange={(e) => setAccountName(e.target.value)}
-                placeholder="Account Name (e.g., saeed@gmail.com)"
+                placeholder="Account Name (e.g., user@example.com)"
                 className="w-full p-2 rounded-lg bg-gray-700 text-gray-200 border-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                 required
             />
