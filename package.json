@@ -12,7 +12,7 @@
     "@next/swc-wasm-nodejs": "^15.5.4",
     "@supabase/supabase-js": "^2.43.4",
     "@types/file-saver": "^2.0.7",
-    "@zxing/library": "^0.20.0",
+    "@zxing/library": "^0.21.3",
     "crypto-js": "^4.2.0",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.2.10",
